@@ -1,0 +1,6 @@
+numpy
+bokeh
+pandas
+dill
+flask
+scikit-learn==0.20.3
