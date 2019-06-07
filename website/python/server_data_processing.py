@@ -16,9 +16,9 @@ import pandas as pd
 # TODO:  convert csv of recommendations to 1. a label to display on web page and 2. the url to go to a website
 
 
-def create_plot(steam_id):
+def create_plot(steam_id, base_path, pr_df, scaled_neighbor_ball_tree_dict):
 
-    base_path = Path('../Saved_Data')
+    # base_path = Path('../Saved_Data')
     # if not base_path.exists():
     #     base_path = Path(r'../../Saved_Data')
 
@@ -35,10 +35,10 @@ def create_plot(steam_id):
     numeric_cols = set(independent_cols)-set(['match_date', 'id', 'rank'])
     lower_is_better_cols = ['turnoversOnMyHalf', 'turnoversOnTheirHalf', 'demoed_by_opponent']
 
-    pr_df = dill.load(open(base_path / 'pr_df_cleaned_and_typed.pkd', 'rb'))
+    # pr_df = dill.load(open(base_path / 'pr_df_cleaned_and_typed.pkd', 'rb'))
     # scaled_pr_df = dill.load(open(path.join(base_path, r'pr_df_cleaned_and_typed_scaled.pkd'), 'rb'))
     fitted_ss_dict = dill.load(open(base_path / 'fitted_ss_dict.pkd', 'rb'))
-    scaled_neighbor_ball_tree_dict = dill.load(open(base_path / 'scaled_neighbor_ball_tree_dict.pkd', 'rb'))
+    # scaled_neighbor_ball_tree_dict = dill.load(open(base_path / 'scaled_neighbor_ball_tree_dict.pkd', 'rb'))
     rel_feature_importance_df = dill.load(open(base_path / 'rel_feature_importance_df.pkl', 'rb'))
 
     account_for_lower_better_stats_df = pd.DataFrame(data=np.ones(shape=(1, len(numeric_cols))), columns=numeric_cols)
