@@ -23,9 +23,9 @@ def player_analysis():
     pr_df = dill.load(open(base_path / 'pr_df_cleaned_and_typed.pkd', 'rb'))
     scaled_neighbor_ball_tree_dict = dill.load(open(base_path / 'scaled_neighbor_ball_tree_dict.pkd', 'rb'))
 
-    steam_id = request.args['steam_id']
+    steam_id = request.args['steam_id'].strip()
 
-    if steam_id not in pr_df['id']:
+    if steam_id not in pr_df['id'].values:
         return render_template('index.html')
 
     p, training_recommendation_categories, recommendation_resources = create_plot(int(steam_id), base_path, pr_df, scaled_neighbor_ball_tree_dict)
