@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Player Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-euiv="X-UA-Compatible" content="IE=edge" />
+    <link href="/static/css/landing-page.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/player_analysis_css/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="../static/player_analysis_css/bootstrap.css" media="screen">
+
+    <!-- <link rel="stylesheet" href="./player_analysis_css/bootstrap.css" media="screen"> -->
+
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-1.1.0.min.css"
+        rel="stylesheet" type="text/css">
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.1.0.min.css"
+        rel="stylesheet" type="text/css">
+    <script src="https://kit.fontawesome.com/816c4f035d.js"></script>
+    <!-- <script src="http://cdn.pydata.org/bokeh/release/bokeh-1.1.0.min.js"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.1.0.min.js"></script> -->
+
+    <style>
+    .thumbnail {
+        position: relative;
+    }
+
+    .caption {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: black;
+    }
+
+    p {
+      font-size: 1.2em;
+    }
+
+    hr {
+      border-color: white
+    }
+
+    .fas {
+      font-size: 0.7em;
+    }
+    </style>
+
+  </head>
+  <body>
+
+
+  <div class="bs-component">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{url_for('index')}}">Project Details<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('player_analyzer')}}" style="color:black;">Play Analyzer</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+    <font color=white>
+    <div class="container">   <!-- Goes around whole page except for navbar pretty much -->
+
+      <div class="page-header" id="banner">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <h1 class="display-4" style="text-align: center; color:white"><b>Rocket League Play Analyzer Project</b></h1>
+            <br>
+            <h2> To see the live app, click <u><a href="{{url_for('player_analyzer')}}">here</a></u>. To find out how the app was made continue reading.</h2>
+            <br>
+            <!-- <h1 style='text-align: center;font-size: 350%;'>Personalized Rocket League Play Analysis</h1> -->
+            <!-- <p class="lead">Shades of gunmetal gray</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-up col-hide" aria-hidden="false" data-toggle="collapse" href="#collapse-intro" aria-expanded="true" aria-controls="collapse-explore"></i>Introduction</h1> <hr />
+            <div class="collapse show" id="collapse-intro">
+              <p>The Rocket League Play Analyzer is a consumer facing web app built using <b>Python, Flask, Pandas, Scikit-Learn, Random Forest Classifiers, and K-Nearest Neighbors</b> to provide personalized training recommendations to accelerate gamer rank advancement using <b>20 GB</b> of performance data collected using a <b>web API</b>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-app-summary" aria-expanded="false" aria-controls="collapse-app-summary"></i> App Summary</h1>
+            <hr />
+            <div class="collapse" id="collapse-app-summary">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/qBoJBr8j9JE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+              <p>Rocket League is a popular e-sports video game.  Gameplay is essentially virtual soccer in rocket propelled cars.  Rocket league boasts over <b>57 million</b> registered players, and due to its popularity an entire ecosystem has arisen all focused around helping players level up in the game ranking system from <u><a href="https://www.youtube.com/watch?v=IgI6tiYl2_A">YouTube videos</a></u>, to <u><a href="https://www.gamersensei.com/games/rocket-league-coaching">coaching services</a></u>, to <u><a href="https://www.badpanda.gg/membership">paid training content</a></u>.</p>
+
+              <p>The Rocket League Play Analyzer analyzes an individual player's game data, identifies which skills will help that player rank up in the in-game ranking system fastest, and then recommends specific training resources to help players do so.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-data" aria-expanded="false" aria-controls="collapse-data"></i> Getting Data</h1>
+            <hr />
+            <div class="collapse" id="collapse-data">
+              <p>The data was collected from <u><a href="https://calculated.gg">https://calculated.gg</a></u>, a site which allows players to upload their saved replays, and then will analyze the players stats compared to other players.  They have a lot of great features on their site, but not a training resource recommender.</p>
+              <p>The calculated.gg <b>web api</b> was used to collect every 3v3 Standard ranked match played from January 1 to April 9, 2019.  The total data included over 200,000 matches and was over <b>20 GB</b> in size.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-cleaning" aria-expanded="false" aria-controls="collapse-cleaning"></i> Cleaning Data</h1>
+            <hr />
+            <div class="collapse" id="collapse-cleaning">
+              <p>The raw data was in the form of 2 sets of json objects.  One with the metadata for the games, and another with the performance statistics for the match.  The data contained much unneeded information for this application.  The unneeded information was discarded, two pandas dataframes were created and then manipulated with user defined functions. Finally, the dataframes were merged with an inner join to produce a dataframe of performance statistics per player per game.</p>
+              <p>After cleaning the data, the data size was reduced to about 500 MB.  Something that could easily fit in memory, and eventually be deployed in the heroku platform.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-explore" aria-expanded="false" aria-controls="collapse-explore"></i> Exploratory Analysis</h1>
+            <hr />
+            <div class="collapse" id="collapse-explore">
+              <p>You could see the zeroes in the data</p>
+              <p>It says some people's stats are negative</p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-fi" aria-expanded="false" aria-controls="collapse-fi"></i> Feature Importance w/ Random Forest Classifiers</h1>
+            <hr />
+            <div class="collapse" id="collapse-fi">
+              <p>For this project, the recommended skill to work on should be both:
+                <ol>
+                  <li>a skill which will help the player rank up
+                  <li>a skill which the player is deficient in
+                </ol></p>
+              <p>This section deals with #1 in the list above.  Relative feature importance can be used with some caveats to determine which skills are most needed in order to increase in rank.</p>
+              <p>Unfortunately, calculating the variance inflation factor (VIF) showed a high degree of collinearity amongst the features of data.  Collinearity can affect the relative feature importance.  In order to mitigate this I iteratively removed the feature with the highest VIF until all VIFs were below 5.  This left me with 13 remaining features.</p>
+              <!-- <p>[Show an image of the dataframe showing the VIF or the remaining features or explain the remaining features]</p> -->
+              <p>Now that only features with an acceptable amount of multicollinearity remain, I can proceed.  Rocket League ranks go from 1-19.  It is entirely possible and likely that different skills are going to be critical if a player is going from rank 1 to rank 2 than if they are going from rank 18 to rank 19.  In order to determine which skills are most important based on what class a player is currently I trained 18 <b>random forest binary classifiers</b> to predict a player’s rank based on their game stats.  Each individual classifier was trained with only a subset of the data and predicts whether a player is in rank i or i+1 only where i is an integer from 1-18.</p>
+              <!-- <p>The resulting relative order of feature importance as well as the r<sup>2</sup> of the models are given below.</p> -->
+              <!-- <p>[Show the relative order of feature importance and r<sup>2</sup>]</p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-knn" aria-expanded="false" aria-controls="collapse-knn"></i> Recognizing Skill Deficiencies w/ K-Nearest Neighbors</h1>
+            <hr />
+            <div class="collapse" id="collapse-knn">
+              <p>For this project, the recommended skill to work on should be both:
+                <ol>
+                  <li>a skill which will help the player rank up
+                  <li>a skill which the player is deficient in
+                </ol></p>
+              <p>This section deals with #2 in the list above.  There are various ways one might determine which skill the player is deficient in relative to the players at the rank he is trying to achieve.  One way might be to compare his average stats to the average stats of the group he is trying to achieve.  There could be players who rank up because they are really good at scoring while others could rank up because they are exceptional at stealing the ball from their opponents, as a simplified example.  While improving in both of these stats are good, we’re looking for which are the best skills to practice.</p>
+              <p>This app compare a player’s average stats not to the entire population at the next rank, but rather only the part of the population most similar to the where the player already is by looking at the <b>k-nearest neighbors</b>.</p>
+              <p>While precomputing the nearest neighbors for every player in my dataset would unnecessarily waste storage space, I did need to normalize the data and then store the dataset in a ball tree in order to readily find the nearest neighbors for any potential user of the app.  The k-nearest neighbors can readily be found from the ball tree dataset.</p>
+
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-bal" aria-expanded="false" aria-controls="collapse-bal"></i> Balancing Important Skills and Deficient Skills</h1>
+            <hr />
+            <div class="collapse" id="collapse-bal">
+              <p>We now have the relative feature importance and the relative deficiencies of the player, but how to average these two priorities?  I went with a geometric average, because if a skill was not very important I didn’t want to recommend it to the player even if they are very “deficient” in that statistic.  There are other logical ways to average these 2 quantities, but geometric averaging seems like a good bet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-web" aria-expanded="false" aria-controls="collapse-web"></i> Web Server, Front End, and Deployment</h1>
+            <hr />
+            <div class="collapse" id="collapse-web">
+              <p>Flask was used for the backend for the web app.  The front end of the app was built with bootstrap 4.  The app is deployed under heroku’s free tier.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br><br><br>
+      <!-- <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="bs-component">
+            <h1><i class="fas fa-chevron-down col-hide" aria-hidden="true" data-toggle="collapse" href="#collapse-dat" aria-expanded="false" aria-controls="collapse-dat"></i> Exploratory Analysis</h1>
+            <hr />
+            <div class="collapse" id="collapse-dat">
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <footer id="footer">
+        <div class="row">
+          <div class="col-lg-12">
+          </div>
+        </div>
+
+      </footer> -->
+
+
+    </div>
+    <footer class="footer bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+
+            <p class="text-muted small mb-4 mb-lg-0">&copy; 2019 - Adam Lewis. All Rights Reserved.</p>
+          </div>
+          <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item mr-3">
+                <a href="https://www.linkedin.com/in/adam-d-lewis">
+                  <i class="fab fa-linkedin fa-2x fa-fw" style="color:#0084f0"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/balast">
+                  <i class="fab fa-github fa-2x fa-fw" style="color:#0084f0"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    </font>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+    $(".col-hide").click(function (e) {
+    debugger;
+
+      if($(this).hasClass("fa-chevron-up")){
+      $(this).removeClass("fas fa-chevron-up").addClass("fas fa-chevron-down")
+      }else{
+      $(this).removeClass("fas fa-chevron-down").addClass("fas fa-chevron-up");
+      }
+    // $(".col-hide").not(this).removeClass("fas fa-chevron-up").addClass("fas fa-chevron-down")
+        setTimeout(function () {
+            $(".clscol-hide").find("div.show").removeClass("show").fadeOut("slow", 100);
+        }, 100);
+    });
+    </script>
+  </body>
+</html>
