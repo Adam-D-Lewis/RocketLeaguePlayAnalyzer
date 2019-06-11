@@ -3,7 +3,7 @@ from bokeh.embed import components
 from bokeh.plotting import figure
 import dill
 from pathlib import Path
-from python.server_data_processing import create_plot, get_recommendations
+from website.python.server_data_processing import create_plot, get_recommendations
 
 app = Flask(__name__)
 # construct column_index_dict
